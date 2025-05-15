@@ -1,0 +1,26 @@
+
+.js-productslist {
+  list-style: none;       
+  padding: 0;             
+  display: flex;          
+  flex-wrap: wrap;       
+  gap: 16px;   
+}           
+
+.product-li {
+  border: 1px solid #ddd;   
+  padding: 12px;
+  width: 200px;             
+  box-sizing: border-box;   
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.product-img {
+  max-width: 100%;          
+  height: auto;            
+  max-height: 150px;        
+  object-fit: contain;      
+  margin-bottom: 8px;
+}
