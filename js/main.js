@@ -5,6 +5,7 @@ const searchbtn = document.querySelector('.js-searchbtn');
 const productsList = document.querySelector('.js-productslist');
 const url = 'https://raw.githubusercontent.com/Adalab/resources/master/apis/products.json';
 const cartList = document.querySelector('.js-cartlist');
+const clearCartBtn = document.querySelector('.js-clearcart');
 
 /*Declaración función pintar productos en el DOM con botón "Add to Cart"*/
 function paintProducts (productsArray) {
@@ -84,10 +85,10 @@ function paintCart() {
     const li = document.createElement('li');
     li.classList.add('product-li');
     li.innerHTML = `
+      <button class='js-delete-btn' data-product-id='${cart[i].id}'>✖</button>
       <h3>${cart[i].title}</h3>
       <p>Price: $${cart[i].price}</p>
       <img class='product-img' src='${cart[i].image}' alt='${cart[i].title}'>
-      <button class='js-delete-btn' data-product-id='${cart[i].id}'>Eliminar del carrito</button>
     `;
     cartList.appendChild(li);
   }
@@ -125,6 +126,27 @@ productsList.addEventListener('click', (event) => {
   }
 });
 
+cartList.addEventListener('click', (event) => {
+  if (event.target.classList.contains('js-delete-btn')) {
+    const productId = event.target.dataset.productId;
 
+    const index = cart.findIndex(p => p.id == productId);
+    if (index > -1) {
+      cart.splice(index, 1);
+    }
+
+    paintCart();
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    paintProducts(productsArray);
+  }
+});
+
+clearCartBtn.addEventListener('click', () => {
+  localStorage.removeItem('cart');
+  cart.length = 0;               
+  paintCart();                    
+  paintProducts(productsArray); 
+})
 
   
