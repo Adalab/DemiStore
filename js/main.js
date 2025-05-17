@@ -19,12 +19,25 @@ function paintProducts (productsArray) {
     } else {
     imageUrl = 'https://placehold.co/200x200?text=No+Image';
     }
+
+    const isInCart = cart.find(item => item.id === product.id);
+
+    let buttonText = '';
+    let buttonClass = 'js-addtocart-btn';
+
+    if (isInCart) {
+      buttonText = 'Eliminar del carrito';
+      buttonClass += ' deletebtn'; // añade clase extra
+    } else {
+      buttonText = 'Añadir al carrito';
+    }
+
     li.classList.add('product-li');
-      li.innerHTML = `
+    li.innerHTML = `
       <h3>${product.title}</h3>
       <p>Price: $${product.price}</p>
       <img class='product-img' src='${imageUrl}' alt='${product.title}'>
-      <button class='js-addtocart-btn' data-product-id='${product.id}'>Añadir al carrito</button>
+      <button class='${buttonClass}' data-product-id='${product.id}'>${buttonText}</button>
     `;
     productsList.appendChild(li);
   });
@@ -52,10 +65,17 @@ searchbtn.addEventListener('click',()=>{
     product.title.toLowerCase().includes(searchTerm)
     );
 
-    paintProducts(filteredProducts); // Pintar solo los productos que coinciden
+    paintProducts(filteredProducts); 
 });
 
 const cart=[];
+
+//Recuperar carrito al cargar la página
+  const savedCart = JSON.parse(localStorage.getItem('cart'));
+  if (savedCart) {
+  cart.push(...savedCart); // Recupera los productos guardados
+  paintCart();             // Muestra el carrito en pantalla
+  }
 
 /*Función pintar productos carrito en el DOM*/
 function paintCart() {
@@ -75,35 +95,36 @@ function paintCart() {
 
 
 productsList.addEventListener('click', (event) => {
-  // Comprobar si el click fue en un botón "Añadir al carrito"
   if (event.target.classList.contains('js-addtocart-btn')) {
     const button = event.target;
-    //Cambiar botón
-    if (button.textContent === 'Añadir al carrito') {
-      button.textContent = 'Eliminar del carrito';
-      button.classList.add('deletebtn'); 
-    } else {
-      button.textContent = 'Añadir al carrito';
-      button.classList.remove('deletebtn');
-    }
-    // Obtener datos del producto
     const productId = button.dataset.productId;
     const product = productsArray.find(p => p.id == productId);
 
-    // Añadir y eliminar productos del carrito
-    if (button.textContent === 'Eliminar del carrito') {
-  cart.push(product);
-} else {
-  const index = cart.findIndex(p => p.id == productId);
-  if (index > -1) {
-    cart.splice(index, 1);
-  }
-}
-    //Actualizar carrito
-    paintCart()
+    const isAdding = button.textContent === 'Añadir al carrito';
+
+    if (isAdding) {
+      button.textContent = 'Eliminar del carrito';
+      button.classList.add('deletebtn');
+
+      const alreadyInCart = cart.find(item => item.id == productId);
+      if (!alreadyInCart) {
+        cart.push(product);
+      }
+    } else {
+      button.textContent = 'Añadir al carrito';
+      button.classList.remove('deletebtn');
+
+      const index = cart.findIndex(p => p.id == productId);
+      if (index > -1) {
+        cart.splice(index, 1);
+      }
+    }
+
+    paintCart();
+    localStorage.setItem('cart', JSON.stringify(cart));
   }
 });
 
 
 
-localStorage.setItem('')
+  
