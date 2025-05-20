@@ -149,4 +149,3 @@ clearCartBtn.addEventListener('click', () => {
   paintProducts(productsArray); 
 })
 
-  

@@ -5,22 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DemiStore</title>
     <link rel="stylesheet" href="./css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
-    <header>
-
+    <header class="header">
+        <h1 class="header-h1">DemiStore</h1>
     </header>
     <main class="main">
 
         <section class="section-search">
         <input type="text" placeholder="Nombre del producto" class="js-inputsearch searchimput"/>
-        <button class="js-searchbtn">Buscar</button>
+        <button class="js-searchbtn searchbtn">Buscar</button>
         </section>
 
         <section class="section-cart">
             <h3>Carrito</h3>
-            <button class="js-clearcart">Limpiar carrito</button>
+            <button class="js-clearcart clearcart">Limpiar carrito</button>
             <ul class="js-cartlist cartlist">
 
             </ul>
@@ -28,6 +30,7 @@
         </section>
 
         <section class="section-products">
+        <h2>Productos destacados</h2>
         <ul class="js-productslist section-products">
             
         </ul>
@@ -35,8 +38,8 @@
 
         
     </main>
-    <footer>
-
+    <footer class="footer">
+        <p>Contacto: info@demistore.com</p>
     </footer>
     <script src="./js/main.js"></script>
 </body>
